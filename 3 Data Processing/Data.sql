@@ -63,7 +63,7 @@ WITH SaleTimeData AS (
         color,
         saledate,
         sellingprice,
-        -- Calculate the FullTimestamp here. Name is stored internally as FULLTIMESTAMP (unquoted).
+        -- Calculate the FullTimestamp here.
         TRY_TO_TIMESTAMP(saledate, 'DY MON DD YYYY HH:MI:SS') AS FullTimestamp
     FROM
         car.sales.motor_discount
@@ -85,10 +85,9 @@ SELECT
     color,
     saledate,
     
-    -- FIX: Reference the calculated column using its inferred, unquoted, uppercase name
     FULLTIMESTAMP, 
     
-    -- Extract the DATE and TIME parts (referencing the inferred name)
+    -- Extract the DATE and TIME parts
     CAST(FULLTIMESTAMP AS DATE) AS SaleDateOnly,
     CAST(FULLTIMESTAMP AS TIME) AS SaleTimeOnly,
 
@@ -99,7 +98,7 @@ SELECT
         ELSE 'Cheap' 
     END AS price_bucket,
 
-    -- Aggregation: Count and sum for each unique group (transaction)
+    -- Aggregation: Count and sum for each unique group 
     COUNT(*) AS total_sales_count,
     SUM(sellingprice) AS total_revenue
 
